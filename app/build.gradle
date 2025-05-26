@@ -40,7 +40,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'dev.tbertie.warehousesytem.App'
+    mainClass = 'dev.tbertie.warehousesystem.App'
 }
 
 tasks.named('test') {

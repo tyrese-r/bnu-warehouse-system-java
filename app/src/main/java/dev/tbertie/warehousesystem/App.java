@@ -3,7 +3,103 @@
  */
 package dev.tbertie.warehousesystem;
 
-public class App {
-    // Create user
+import dev.tbertie.warehousesystem.controller.InventoryController;
+import dev.tbertie.warehousesystem.controller.OrderController;
+import dev.tbertie.warehousesystem.controller.SupplierController;
+import dev.tbertie.warehousesystem.model.Customer;
+import dev.tbertie.warehousesystem.model.CustomerOrder;
+import dev.tbertie.warehousesystem.model.Item;
+import dev.tbertie.warehousesystem.model.Supplier;
+import dev.tbertie.warehousesystem.model.SupplierOrder;
+import dev.tbertie.warehousesystem.report.InventoryReport;
+import dev.tbertie.warehousesystem.report.OrderReport;
+import dev.tbertie.warehousesystem.report.SupplierReport;
+import dev.tbertie.warehousesystem.service.InventoryService;
+import dev.tbertie.warehousesystem.service.OrderService;
+import dev.tbertie.warehousesystem.service.SupplierService;
 
+public class App {
+    // System components
+    private static InventoryService inventoryService;
+    private static OrderService orderService;
+    private static SupplierService supplierService;
+    
+    // Controllers
+    private static InventoryController inventoryController;
+    private static OrderController orderController;
+    private static SupplierController supplierController;
+    
+    // Reports
+    private static InventoryReport inventoryReport;
+    private static OrderReport orderReport;
+    private static SupplierReport supplierReport;
+    
+    public static void main(String[] args) {
+        System.out.println("Warehouse System Started");
+
+        initializeServices();
+        initializeControllers();
+        initializeReports();
+        
+        // Seed initial data
+        seedData();
+        
+        // Run demo workflow
+        runDemoWorkflow();
+    }
+    
+    private static void initializeServices() {
+        inventoryService = new InventoryService(5);
+        orderService = new OrderService(inventoryService);
+        supplierService = new SupplierService(inventoryService);
+    }
+    
+    private static void initializeControllers() {
+        inventoryController = new InventoryController(inventoryService);
+        orderController = new OrderController(orderService);
+        supplierController = new SupplierController(supplierService);
+    }
+    
+    private static void initializeReports() {
+        inventoryReport = new InventoryReport(inventoryService);
+        orderReport = new OrderReport(orderService);
+        supplierReport = new SupplierReport(supplierService);
+    }
+
+    private static void seedData() {
+        // Create suppliers
+        Supplier techSupplier = new Supplier("TechCorp", "contact@techcorp.com");
+        Supplier officeSupplier = new Supplier("OfficeDepot", "sales@officedepot.com");
+        
+        // Add suppliers to supplier service
+        supplierController.addSupplier(techSupplier);
+        supplierController.addSupplier(officeSupplier);
+
+        // Create items
+        Item laptop = new Item("Laptop", techSupplier, "High-performance laptop", 800, 10);
+        Item monitor = new Item("Monitor", techSupplier, "27-inch 4K monitor", 300, 15);
+        Item desk = new Item("Desk", officeSupplier, "Standing desk", 250, 5);
+        Item chair = new Item("Chair", officeSupplier, "Ergonomic office chair", 150, 8);
+        
+        // Add items to inventory
+        inventoryController.addItemToInventory(laptop, 10);
+        inventoryController.addItemToInventory(monitor, 15);
+        inventoryController.addItemToInventory(desk, 5);
+        inventoryController.addItemToInventory(chair, 8);
+        
+        // Create customers
+        Customer customer1 = new Customer("John Doe", "12 Fake Road");
+        Customer customer2 = new Customer("Jane Smith", "34 Example Street");
+        
+        System.out.println("Initial data seeded successfully");
+    }
+    
+    private static void runDemoWorkflow() {
+        System.out.println("\n=== Warehouse System Demo Workflow ===\n");
+        
+        // Display
+        System.out.println("Current Inventory:");
+        inventoryController.displayAllItems();
+
+    }
 }
