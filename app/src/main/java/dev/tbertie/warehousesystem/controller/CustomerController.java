@@ -48,16 +48,17 @@ public class CustomerController {
         return customers.getCustomerByUuid(uuid);
     }
 
-    public Customer searchCustomerByName(String name) {
+    public List<Customer> searchCustomerByName(String name) {
+        List<Customer> customerList = new ArrayList<>();
         if(name == null) {
             throw new IllegalArgumentException("name must not be null");
         }
         for (Customer customer : customers.getAllCustomers()) {
             if (customer.getName().equalsIgnoreCase(name)) {
-                return customer;
+                customerList.add(customer);
             }
         }
-        return null;
+        return customerList;
     }
 
     public String displayCustomerDetails(Customer customer) {

@@ -3,6 +3,7 @@ package dev.tbertie.warehousesystem.controller;
 import dev.tbertie.warehousesystem.model.Customer;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 import java.util.UUID;
 
 class CustomerControllerTest {
@@ -11,34 +12,37 @@ class CustomerControllerTest {
     void searchCustomerByNameReturnsCorrectCustomer() {
         CustomerController controller = new CustomerController();
         controller.createCustomer("John Doe", "123 Street");
-        Customer result = controller.searchCustomerByName("John Doe");
+        List<Customer> result = controller.searchCustomerByName("John Doe");
         assertNotNull(result);
-        assertEquals("John Doe", result.getName());
+        assertEquals(1, result.size());
+        assertEquals("John Doe", result.get(0).getName());
     }
 
     @Test
-    void searchCustomerByNameReturnsNullForNonExistentCustomer() {
+    void searchCustomerByNameReturnsEmptyListForNonExistentCustomer() {
         CustomerController controller = new CustomerController();
         controller.createCustomer("Jane Doe", "45 Oak Street");
-        Customer result = controller.searchCustomerByName("Non Existent");
-        assertNull(result);
+        List<Customer> result = controller.searchCustomerByName("Non Existent");
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 
     @Test
     void searchCustomerByNameIsCaseInsensitive() {
         CustomerController controller = new CustomerController();
         controller.createCustomer("Alice Smith", "678 No Road");
-        Customer result = controller.searchCustomerByName("alice smith");
+        List<Customer> result = controller.searchCustomerByName("alice smith");
         assertNotNull(result);
-        assertEquals("Alice Smith", result.getName());
+        assertEquals(1, result.size());
+        assertEquals("Alice Smith", result.get(0).getName());
     }
 
     @Test
     void getCustomerByUuidReturnsCorrectCustomer() {
         CustomerController controller = new CustomerController();
         controller.createCustomer("Bob Brown", "321 Maple Street");
-        Customer createdCustomer = controller.searchCustomerByName("Bob Brown");
-        Customer result = controller.getCustomerByUuid(createdCustomer.getUuid());
+        List<Customer> createdCustomers = controller.searchCustomerByName("Bob Brown");
+        Customer result = controller.getCustomerByUuid(createdCustomers.get(0).getUuid());
         assertNotNull(result);
         assertEquals("Bob Brown", result.getName());
     }
@@ -55,7 +59,8 @@ class CustomerControllerTest {
     void updateNameChangesCustomerNameSuccessfully() throws Exception {
         CustomerController controller = new CustomerController();
         controller.createCustomer("Original Name", "123 Street");
-        Customer customer = controller.searchCustomerByName("Original Name");
+        List<Customer> customers = controller.searchCustomerByName("Original Name");
+        Customer customer = customers.get(0);
         controller.updateName(customer, "Updated Name");
         assertEquals("Updated Name", customer.getName());
     }
@@ -64,7 +69,8 @@ class CustomerControllerTest {
     void updateNameThrowsExceptionWhenNameIsNull() {
         CustomerController controller = new CustomerController();
         controller.createCustomer("Original Name", "123 Street");
-        Customer customer = controller.searchCustomerByName("Original Name");
+        List<Customer> customers = controller.searchCustomerByName("Original Name");
+        Customer customer = customers.get(0);
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             controller.updateName(customer, null);
         });
