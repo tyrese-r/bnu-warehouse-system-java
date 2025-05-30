@@ -20,6 +20,8 @@ import dev.tbertie.warehousesystem.service.InventoryService;
 import dev.tbertie.warehousesystem.service.OrderService;
 import dev.tbertie.warehousesystem.service.SupplierService;
 
+import java.util.List;
+
 public class App {
     // System components
     private static InventoryService inventoryService;
@@ -77,13 +79,11 @@ public class App {
     }
 
     private static void seedData() {
-        // Create suppliers
-        Supplier techSupplier = new Supplier("TechCorp", "contact@techcorp.com");
-        Supplier officeSupplier = new Supplier("OfficeDepot", "sales@officedepot.com");
         
         // Add suppliers to supplier service
-        supplierController.addSupplier(techSupplier);
-        supplierController.addSupplier(officeSupplier);
+        supplierController.createSupplier("name", "02079460182", List.of(""), List.of("a"), List.of(""));
+        supplierController.createSupplier("name", "02079460183", List.of(""), List.of("a"), List.of(""));
+
 
         // Create items
         Item laptop = new Item("Laptop", techSupplier, "High-performance laptop", 800, 10);

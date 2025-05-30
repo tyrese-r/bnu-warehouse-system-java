@@ -1,42 +1,52 @@
 package dev.tbertie.warehousesystem.controller;
 
-import dev.tbertie.warehousesystem.model.Item;
 import dev.tbertie.warehousesystem.model.Supplier;
-import dev.tbertie.warehousesystem.model.SupplierOrder;
+import dev.tbertie.warehousesystem.repository.SupplierRepository;
 import dev.tbertie.warehousesystem.service.SupplierService;
+
+import java.util.List;
+import java.util.UUID;
 
 public class SupplierController {
     private final SupplierService supplierService;
-    
+    private final SupplierRepository supplierRepo = SupplierRepository.getInstance();
+
     public SupplierController(SupplierService supplierService) {
         this.supplierService = supplierService;
     }
-    
-    public void addSupplier(Supplier supplier) {
 
+    // Create a new supplier
+    public void createSupplier(String name, String contactInfo, List<String> purchases, List<String> items, List<String> deliveries) {
+        Supplier supplier = new Supplier(UUID.randomUUID(), name, contactInfo, purchases, items, deliveries);
+        supplierRepo.addSupplier(supplier);
     }
-    
-    public void displayAllSuppliers() {
 
+    // Read all suppliers
+    public List<Supplier> getAllSuppliers() {
+        return supplierRepo.getAllSuppliers();
     }
-    
-    public SupplierOrder createSupplierOrder(Supplier supplier) {
-        return null;
-    }
-    
-    public void addItemToSupplierOrder(SupplierOrder order, Item item, int quantity) {
 
+    // Read a supplier by UUID
+    public Supplier getSupplierByUuid(UUID uuid) {
+        return supplierRepo.getSupplierByUuid(uuid);
     }
-    
-    public boolean submitSupplierOrder(SupplierOrder order) {
 
-        return false;
+    // Update supplier details
+    public void updateSupplier(UUID uuid, String newName, String newContactInfo, List<String> newPurchases, List<String> newItems, List<String> newDeliveries) {
+        Supplier supplier = supplierRepo.getSupplierByUuid(uuid);
+        if (supplier != null) {
+            supplier.setName(newName);
+            supplier.setContactInfo(newContactInfo);
+            supplier.setPurchases(newPurchases);
+            supplier.setItems(newItems);
+            supplier.setDeliveries(newDeliveries);
+        } else {
+            throw new IllegalArgumentException("Supplier not found");
+        }
     }
-    
-    public boolean receiveSupplierOrder(SupplierOrder order) {
-        return false;
-    }
-    
-    public void displayAllSupplierOrders() {
+
+    // Delete a supplier
+    public void deleteSupplier(Supplier supplier) {
+        supplierRepo.removeSupplier(supplier);
     }
 }

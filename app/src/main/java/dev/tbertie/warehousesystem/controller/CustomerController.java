@@ -17,23 +17,41 @@ public class CustomerController {
     }
 
     public void updateName(Customer customer, String newName) {
-        // Validation would be done here
+        if (customer == null) {
+            throw new IllegalArgumentException("Customer must not be null");
+        }
+        if(newName == null) {
+            throw new IllegalArgumentException("Name must not be null");
+        }
         customer.setName(newName);
     }
 
     public void updateAddress(Customer customer, String newAddress) {
+        if (customer == null) {
+            throw new IllegalArgumentException("Customer must not be null");
+        }
+        if(newAddress == null) {
+            throw new IllegalArgumentException("Address must not be null");
+        }
         customer.setAddress(newAddress);
     }
 
     public List<Customer> getAllCustomers() {
-        return getAllCustomers();
+        return customers.getAllCustomers();
     }
 
     public Customer getCustomerByUuid(UUID uuid) {
+        if(uuid == null) {
+            throw new IllegalArgumentException("UUID must not be null");
+        }
+
         return customers.getCustomerByUuid(uuid);
     }
 
     public Customer searchCustomerByName(String name) {
+        if(name == null) {
+            throw new IllegalArgumentException("name must not be null");
+        }
         for (Customer customer : customers.getAllCustomers()) {
             if (customer.getName().equalsIgnoreCase(name)) {
                 return customer;

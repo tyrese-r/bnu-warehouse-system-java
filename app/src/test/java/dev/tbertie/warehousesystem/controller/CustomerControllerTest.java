@@ -50,4 +50,24 @@ class CustomerControllerTest {
         Customer result = controller.getCustomerByUuid(invalidUuid);
         assertNull(result);
     }
+
+    @Test
+    void updateNameChangesCustomerNameSuccessfully() throws Exception {
+        CustomerController controller = new CustomerController();
+        controller.createCustomer("Original Name", "123 Street");
+        Customer customer = controller.searchCustomerByName("Original Name");
+        controller.updateName(customer, "Updated Name");
+        assertEquals("Updated Name", customer.getName());
+    }
+
+    @Test
+    void updateNameThrowsExceptionWhenNameIsNull() {
+        CustomerController controller = new CustomerController();
+        controller.createCustomer("Original Name", "123 Street");
+        Customer customer = controller.searchCustomerByName("Original Name");
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            controller.updateName(customer, null);
+        });
+        assertEquals("Name must not be null", exception.getMessage());
+    }
 }
