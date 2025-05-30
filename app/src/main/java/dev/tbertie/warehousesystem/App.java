@@ -3,6 +3,7 @@
  */
 package dev.tbertie.warehousesystem;
 
+import dev.tbertie.warehousesystem.controller.CustomerController;
 import dev.tbertie.warehousesystem.controller.InventoryController;
 import dev.tbertie.warehousesystem.controller.OrderController;
 import dev.tbertie.warehousesystem.controller.SupplierController;
@@ -14,6 +15,7 @@ import dev.tbertie.warehousesystem.model.SupplierOrder;
 import dev.tbertie.warehousesystem.report.InventoryReport;
 import dev.tbertie.warehousesystem.report.OrderReport;
 import dev.tbertie.warehousesystem.report.SupplierReport;
+import dev.tbertie.warehousesystem.repository.CustomerRepository;
 import dev.tbertie.warehousesystem.service.InventoryService;
 import dev.tbertie.warehousesystem.service.OrderService;
 import dev.tbertie.warehousesystem.service.SupplierService;
@@ -28,6 +30,7 @@ public class App {
     private static InventoryController inventoryController;
     private static OrderController orderController;
     private static SupplierController supplierController;
+    private static CustomerController customerController;
     
     // Reports
     private static InventoryReport inventoryReport;
@@ -40,6 +43,8 @@ public class App {
         initializeServices();
         initializeControllers();
         initializeReports();
+
+
         
         // Seed initial data
         seedData();
@@ -58,12 +63,17 @@ public class App {
         inventoryController = new InventoryController(inventoryService);
         orderController = new OrderController(orderService);
         supplierController = new SupplierController(supplierService);
+        customerController = new CustomerController();
     }
     
     private static void initializeReports() {
         inventoryReport = new InventoryReport(inventoryService);
         orderReport = new OrderReport(orderService);
         supplierReport = new SupplierReport(supplierService);
+    }
+
+    private static void initializeRepo() {
+        CustomerRepository.getInstance();
     }
 
     private static void seedData() {
@@ -90,7 +100,12 @@ public class App {
         // Create customers
         Customer customer1 = new Customer("John Doe", "12 Fake Road");
         Customer customer2 = new Customer("Jane Smith", "34 Example Street");
-        
+
+        customerController.createCustomer("John Doe", "12 Fake Road");
+        customerController.createCustomer("Jane Smith", "34 Example Street");
+
+        customerController.displayCustomerDetails(customer1);
+
         System.out.println("Initial data seeded successfully");
     }
     
