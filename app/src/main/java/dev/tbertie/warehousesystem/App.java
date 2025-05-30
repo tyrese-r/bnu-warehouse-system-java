@@ -86,16 +86,16 @@ public class App {
 
 
         // Create items
-        Item laptop = new Item("Laptop", techSupplier, "High-performance laptop", 800, 10);
-        Item monitor = new Item("Monitor", techSupplier, "27-inch 4K monitor", 300, 15);
-        Item desk = new Item("Desk", officeSupplier, "Standing desk", 250, 5);
-        Item chair = new Item("Chair", officeSupplier, "Ergonomic office chair", 150, 8);
+//        Item laptop = new Item("Laptop", techSupplier, "High-performance laptop", 800, 10);
+//        Item monitor = new Item("Monitor", techSupplier, "27-inch 4K monitor", 300, 15);
+//        Item desk = new Item("Desk", officeSupplier, "Standing desk", 250, 5);
+//        Item chair = new Item("Chair", officeSupplier, "Ergonomic office chair", 150, 8);
         
         // Add items to inventory
-        inventoryController.addItemToInventory(laptop, 10);
-        inventoryController.addItemToInventory(monitor, 15);
-        inventoryController.addItemToInventory(desk, 5);
-        inventoryController.addItemToInventory(chair, 8);
+//        inventoryController.addItemToInventory(laptop, 10);
+//        inventoryController.addItemToInventory(monitor, 15);
+//        inventoryController.addItemToInventory(desk, 5);
+//        inventoryController.addItemToInventory(chair, 8);
         
         // Create customers
         Customer customer1 = new Customer("John Doe", "12 Fake Road");
