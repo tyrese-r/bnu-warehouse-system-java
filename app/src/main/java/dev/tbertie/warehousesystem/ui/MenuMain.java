@@ -2,12 +2,10 @@ package dev.tbertie.warehousesystem.ui;
 
 public class MenuMain extends Menu {
 
-    String name = "Main Menu";
 
-    UIController uiController;
 
-    public MenuMain(UIController uiController) {
-        super(uiController);
+    public MenuMain(String name, UIController uiController) {
+        super(name, uiController);
     }
 
 
@@ -37,7 +35,7 @@ public class MenuMain extends Menu {
             case "2":
             case "settings":
                 System.out.println("Navigating to Settings Menu (not implemented yet)...");
-                 uiController.pushMenuToStack(new MenuSettings(uiController));
+                 uiController.pushMenuToStack(new MenuSettings("settings", uiController));
                 break;
             case "exit":
                 uiController.exit();

@@ -3,6 +3,7 @@ package dev.tbertie.warehousesystem.ui;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 public class UIController {
 
@@ -14,8 +15,8 @@ public class UIController {
 
 
     public UIController() {
-        Menu initialMenu = new MenuMain(this);
-        ;
+        Menu initialMenu = new MenuMain("main menu", this);
+
         this.scanner = new Scanner(System.in);
         menuStack.push(initialMenu);
     }
@@ -38,12 +39,13 @@ public class UIController {
         System.out.println("Goodbye");
     }
     public void navigateBack() {
-        if (menuStack.size() > 1) {
+        if (menuStack.size() <= 1) {
             System.out.println("You are at the main menu");
             return;
         }
-
         menuStack.pop();
+
+
     }
 
     public void exit() {
@@ -59,7 +61,7 @@ public class UIController {
                 return;
             }
 
-            System.out.print("> ");
+            System.out.print(getFormattedPath() + ">> ");
             String line = scanner.nextLine().trim();
             if (line.isEmpty()) {
                 System.out.println("Invalid input");
@@ -91,6 +93,17 @@ public class UIController {
         }
 
 
+    }
+
+    private String getFormattedPath() {
+        if (menuStack.size() <= 1) {
+            return "";
+        }
+
+        return menuStack.stream()
+                .skip(1)
+                .map(Menu::getName)
+                .collect(Collectors.joining(" > ")) + " ";
     }
 
     public void pushMenuToStack(Menu menu) {

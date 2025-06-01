@@ -1,17 +1,21 @@
 package dev.tbertie.warehousesystem.ui;
 
+import lombok.Getter;
+
 public abstract class Menu {
 
     protected final UIController uiController;
 
-    String name = "";
+    @Getter
+    protected final String name;
 
-    protected Menu(UIController uiController) {
+    protected Menu(String name, UIController uiController) {
         if(uiController == null) {
             throw new IllegalArgumentException("UIController must be set");
         }
 
         this.uiController = uiController;
+        this.name = name;
     }
 
     public abstract void render();

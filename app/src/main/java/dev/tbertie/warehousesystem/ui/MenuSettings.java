@@ -12,7 +12,7 @@ public class MenuSettings extends Menu {
 
     }
 
-    public MenuSettings(UIController uiController) {
-        super(uiController);
+    public MenuSettings(String name, UIController uiController) {
+        super(name, uiController);
     }
 }
