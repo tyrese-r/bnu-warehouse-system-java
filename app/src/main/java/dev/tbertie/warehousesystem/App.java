@@ -84,8 +84,8 @@ public class App {
     private static void seedData() {
         
         // Add suppliers to supplier service
-        supplierController.createSupplier("name", "02079460182", List.of(""), List.of("a"), List.of(""));
-        supplierController.createSupplier("name", "02079460183", List.of(""), List.of("a"), List.of(""));
+        supplierController.createSupplier("Supplier 1", "02079460182", List.of(), List.of());
+        supplierController.createSupplier("Supplier 2", "02079460183", List.of(), List.of());
 
 
         // Create items

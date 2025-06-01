@@ -16,31 +16,53 @@ public class Inventory {
     }
     
     public void addItem(Item item, int quantity) {
-
+        items.put(item, items.getOrDefault(item, 0) + quantity);
     }
     
     public boolean removeItem(Item item, int quantity) {
-
+        int currentQuantity = items.getOrDefault(item, 0);
+        if (currentQuantity >= quantity) {
+            items.put(item, currentQuantity - quantity);
+            return true;
+        }
         return false;
     }
     
     public int getQuantity(Item item) {
-        return 0;
+        return items.getOrDefault(item, 0);
     }
     
     public boolean isLowStock(Item item) {
-        return false;
+        return getQuantity(item) <= lowStockThreshold;
     }
     
     public List<Item> getLowStockItems() {
-        return null;
+        return items.keySet().stream()
+                .filter(this::isLowStock)
+                .toList();
     }
     
     public boolean canFulfillOrder(CustomerOrder order) {
-        return false;
+        for (Map.Entry<Item, Integer> entry : order.getItems().entrySet()) {
+            Item item = entry.getKey();
+            int requiredQuantity = entry.getValue();
+            if (getQuantity(item) < requiredQuantity) {
+                return false;
+            }
+        }
+        return true;
     }
     
     public boolean fulfillOrder(CustomerOrder order) {
-        return false;
+        if (!canFulfillOrder(order)) {
+            return false;
+        }
+        
+        for (Map.Entry<Item, Integer> entry : order.getItems().entrySet()) {
+            Item item = entry.getKey();
+            int requiredQuantity = entry.getValue();
+            removeItem(item, requiredQuantity);
+        }
+        return true;
     }
 }

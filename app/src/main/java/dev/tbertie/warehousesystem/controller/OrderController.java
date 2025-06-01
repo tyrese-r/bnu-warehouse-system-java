@@ -28,11 +28,28 @@ public class OrderController {
         return false;
     }
     
-    public void displayAllOrders() {
-
+    public String displayAllOrders() {
+        return "Order display not implemented yet.\n";
     }
     
-    public void displayOrdersByStatus(String status) {
-
+    public String displayOrdersByStatus(String status) {
+        return "Order status display not implemented yet.\n";
+    }
+    
+    public String displayOrderDetails(CustomerOrder order) {
+        if (order == null) return "Order not found.\n";
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== Order Details ===\n");
+        sb.append("Order ID: ").append(order.getOrderId()).append("\n");
+        sb.append("Customer: ").append(order.getCustomer().getName()).append("\n");
+        sb.append("Status: ").append(order.getStatus()).append("\n");
+        sb.append("Order Date: ").append(order.getOrderDate()).append("\n");
+        if (order.getFulfilledDate() != null) {
+            sb.append("Fulfilled Date: ").append(order.getFulfilledDate()).append("\n");
+        }
+        sb.append("Items: ").append(order.getItems().size()).append(" item(s)\n");
+        sb.append("\n");
+        return sb.toString();
     }
 }

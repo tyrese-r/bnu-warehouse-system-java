@@ -1,6 +1,8 @@
 package dev.tbertie.warehousesystem.ui;
 
 import dev.tbertie.warehousesystem.ui.customer.MenuCustomer;
+import dev.tbertie.warehousesystem.ui.supplier.MenuSupplier;
+import dev.tbertie.warehousesystem.ui.inventory.MenuInventory;
 
 import java.util.List;
 
@@ -40,17 +42,19 @@ public class MenuMain extends Menu {
                 break;
             case "2":
             case "inventory":
-                System.out.println("Navigating to Settings Menu (not implemented yet)...");
-                uiController.pushMenuToStack(new MenuSettings("settings", uiController));
+                uiController.pushMenuToStack(new MenuInventory("inventory", uiController));
                 break;
+            case "3":
             case "orders":
-                uiController.exit();
+                System.out.println("Orders menu");
                 break;
+            case "4":
             case "suppliers":
-                uiController.exit();
+                uiController.pushMenuToStack(new MenuSupplier("suppliers", uiController));
                 break;
+            case "5":
             case "reports":
-                uiController.exit();
+                System.out.println("Reports menu");
                 break;
             default:
                 System.out.println("Unknown command: " + action);
