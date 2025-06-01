@@ -1,5 +1,9 @@
 package dev.tbertie.warehousesystem.ui;
 
+import dev.tbertie.warehousesystem.ui.customer.MenuCustomer;
+
+import java.util.List;
+
 public class MenuMain extends Menu {
 
 
@@ -11,33 +15,41 @@ public class MenuMain extends Menu {
 
     @Override
     public void render() {
-        System.out.println("\n--- Main Menu ---");
-        System.out.println("1. View Items");
-        System.out.println("2. Settings");
-        System.out.println("At any time use exit or back");
-        System.out.println("exit - Exit application");
-        System.out.println("------------------");
+        String menuString = UIUtils.generateMenu("Main Menu", List.of(
+                "Customers",
+                "Inventory",
+                "Orders",
+                "Suppliers",
+                "Reports"
+        ));
+
+        System.out.println(menuString);
     }
 
     @Override
     public void command(String[] command) {
 
-        if (command.length == 0) return; // Should not happen if getInput is robust
+        if (command.length == 0) return;
 
         String action = command[0].toLowerCase();
         // Do something here
         switch (action) {
             case "1":
-            case "view":
-                System.out.println("Navigating to View Items Menu (not implemented yet)...");
-//                uiController.pushMenuToStack(new ViewItemsMenu());
+            case "customers":
+                uiController.pushMenuToStack(new MenuCustomer("customer", uiController));
                 break;
             case "2":
-            case "settings":
+            case "inventory":
                 System.out.println("Navigating to Settings Menu (not implemented yet)...");
-                 uiController.pushMenuToStack(new MenuSettings("settings", uiController));
+                uiController.pushMenuToStack(new MenuSettings("settings", uiController));
                 break;
-            case "exit":
+            case "orders":
+                uiController.exit();
+                break;
+            case "suppliers":
+                uiController.exit();
+                break;
+            case "reports":
                 uiController.exit();
                 break;
             default:
