@@ -19,6 +19,9 @@ import dev.tbertie.warehousesystem.repository.CustomerRepository;
 import dev.tbertie.warehousesystem.service.InventoryService;
 import dev.tbertie.warehousesystem.service.OrderService;
 import dev.tbertie.warehousesystem.service.SupplierService;
+import dev.tbertie.warehousesystem.ui.Menu;
+import dev.tbertie.warehousesystem.ui.MenuMain;
+import dev.tbertie.warehousesystem.ui.UIController;
 
 import java.util.List;
 
@@ -110,10 +113,8 @@ public class App {
     }
     
     private static void runDemoWorkflow() {
-        System.out.println("\n=== Warehouse System Demo Workflow ===\n");
-        
-        // Display
-        System.out.println("Current Inventory:");
+        UIController uiController = new UIController();
+        uiController.start();
         inventoryController.displayAllItems();
 
     }
