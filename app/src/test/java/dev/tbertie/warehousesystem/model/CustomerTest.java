@@ -10,11 +10,12 @@ public class CustomerTest {
     Customer customer;
     final String customerName = "John Doe";
     final String customerAddress = "Fake Street, London SW1A 1AA";
+    final String customerPhone = "+0 12345";
 
     @BeforeEach
     void setUp() {
         // Create customer
-        customer = new Customer(customerName, customerAddress);
+        customer = new Customer(customerName, customerAddress, customerPhone);
     }
 
     @Test

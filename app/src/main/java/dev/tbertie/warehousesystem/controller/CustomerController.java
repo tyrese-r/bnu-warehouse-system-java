@@ -11,9 +11,9 @@ import java.util.*;
 public class CustomerController {
 
     CustomerRepository customers = CustomerRepository.getInstance();
-    public void createCustomer(String name, String address) {
-        Customer customer = new Customer(name, address);
-        customers.getInstance().addCustomer(customer);
+    public void createCustomer(String name, String address, String phone) {
+        Customer customer = new Customer(name, address, phone);
+        customers.addCustomer(customer);
     }
 
     public void updateName(Customer customer, String newName) {
@@ -61,9 +61,19 @@ public class CustomerController {
         return customerList;
     }
 
+    public void deleteCustomer(UUID uuid) {
+        if(uuid == null) {
+            throw new IllegalArgumentException("UUID must not be null");
+        }
+        Customer customer = customers.getCustomerByUuid(uuid);
+        if(customer != null) {
+            customers.removeCustomer(customer);
+        }
+    }
+
     public String displayCustomerDetails(Customer customer) {
-        return String.format("Customer Details: Name: %s, Address: %s, UUID: %s",
-                             customer.getName(), customer.getAddress(), customer.getUuid());
+        return String.format("Customer Details: Name: %s, Address: %s, Phone: %s, UUID: %s",
+                             customer.getName(), customer.getAddress(), customer.getPhone(), customer.getUuid());
     }
 
 }

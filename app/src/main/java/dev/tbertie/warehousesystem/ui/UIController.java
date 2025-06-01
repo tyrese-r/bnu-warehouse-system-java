@@ -1,5 +1,7 @@
 package dev.tbertie.warehousesystem.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.Stack;
@@ -67,7 +69,7 @@ public class UIController {
                 System.out.println("Invalid input");
                 continue;
             }
-            String[] commandParts = line.split("\\s+");
+            String[] commandParts = parseQuotedArguments(line);
 
             if (commandParts.length == 0) {
                 System.out.println("Invalid input");
@@ -95,7 +97,7 @@ public class UIController {
 
     }
 
-    private String getFormattedPath() {
+    String getFormattedPath() {
         if (menuStack.size() <= 1) {
             return "";
         }
@@ -104,6 +106,45 @@ public class UIController {
                 .skip(1)
                 .map(Menu::getName)
                 .collect(Collectors.joining(" > ")) + " ";
+    }
+
+    String[] parseQuotedArguments(String input) {
+        List<String> arguments = new ArrayList<>();
+        StringBuilder currentArg = new StringBuilder();
+        boolean inQuotes = false;
+        boolean escapeNext = false;
+        boolean hasQuotedContent = false;
+        
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            
+            if (escapeNext) {
+                currentArg.append(c);
+                escapeNext = false;
+            } else if (c == '\\') {
+                escapeNext = true;
+            } else if (c == '"') {
+                if (inQuotes) {
+                    // Closing quote - mark that we had quoted content
+                    hasQuotedContent = true;
+                }
+                inQuotes = !inQuotes;
+            } else if (Character.isWhitespace(c) && !inQuotes) {
+                if (!currentArg.isEmpty() || hasQuotedContent) {
+                    arguments.add(currentArg.toString());
+                    currentArg.setLength(0);
+                    hasQuotedContent = false;
+                }
+            } else {
+                currentArg.append(c);
+            }
+        }
+        
+        if (!currentArg.isEmpty() || hasQuotedContent) {
+            arguments.add(currentArg.toString());
+        }
+        
+        return arguments.toArray(new String[0]);
     }
 
     public void pushMenuToStack(Menu menu) {

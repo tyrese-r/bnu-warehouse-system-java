@@ -101,13 +101,9 @@ public class App {
 //        inventoryController.addItemToInventory(chair, 8);
         
         // Create customers
-        Customer customer1 = new Customer("John Doe", "12 Fake Road");
-        Customer customer2 = new Customer("Jane Smith", "34 Example Street");
 
-        customerController.createCustomer("John Doe", "12 Fake Road");
-        customerController.createCustomer("Jane Smith", "34 Example Street");
-
-        customerController.displayCustomerDetails(customer1);
+        customerController.createCustomer("John Doe", "12 Fake Road", "+123");
+        customerController.createCustomer("Jane Smith", "34 Example Street", "+456");
 
         System.out.println("Initial data seeded successfully");
     }
